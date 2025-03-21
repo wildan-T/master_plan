@@ -12,7 +12,10 @@ class PlanScreen extends StatefulWidget {
 
 class _PlanScreenState extends State<PlanScreen> {
   late ScrollController scrollController;
-  Plan get plan => widget.plan;
+  Plan get plan {
+    ValueNotifier<List<Plan>> plansNotifier = PlanProvider.of(context);
+    return plansNotifier.value.firstWhere((p) => p.name == widget.plan.name);
+  }
 
   @override
   void dispose() {
@@ -80,6 +83,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
   Widget _buildAddTaskButton(BuildContext context) {
     ValueNotifier<List<Plan>> plansNotifier = PlanProvider.of(context);
+
     Plan currentPlan = plansNotifier.value.firstWhere(
       (p) => p.name == plan.name,
     );
